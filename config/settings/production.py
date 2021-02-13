@@ -19,6 +19,8 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000"
 ]
 
+ALLOWED_HOSTS = ['*']
+
 DEBUG = False
 
 STATIC_ROOT = os.environ.get('STATIC_ROOT')
