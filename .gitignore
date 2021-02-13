@@ -104,3 +104,4 @@ node_modules/
 .scssc
 .sass-cache/
 *.pyc
+.vscode/settings.json
