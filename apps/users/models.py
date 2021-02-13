@@ -21,7 +21,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text=_('Designates whether the user can log into this admin site.'),
     )
-    type_user = models.CharField(_("type user"), choices=CHOICES_TYPE_USER, max_length=50)
     objects = UserManager()
 
     EMAIL_FIELD = 'email'

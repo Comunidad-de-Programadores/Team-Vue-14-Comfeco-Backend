@@ -98,9 +98,9 @@ venv/
 
 # mypy
 .mypy_cache/
-src/db.sqlite3
-src/config/settings/settings.json
+db.sqlite3
 media/
 node_modules/
 .scssc
 .sass-cache/
+*.pyc
