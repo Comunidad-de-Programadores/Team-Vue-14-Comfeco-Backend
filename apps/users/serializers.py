@@ -22,14 +22,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'password', 'confirm_password']
 
     def validate_username(self, value):
-        if not User.objects.filter(username=value).exists():
+        if User.objects.filter(username=value).exists():
             return serializers.ValidationError('Ya existe este username')
         return value
     
     def validate_email(self, value):
-        if not User.objects.filter(email=value).exists():
+        if User.objects.filter(email=value).exists():
             return serializers.ValidationError('Ya existe este email')
-        return attr
+        return value
 
     def validate(self, data):
         if data['password'] != data['confirm_password']:
