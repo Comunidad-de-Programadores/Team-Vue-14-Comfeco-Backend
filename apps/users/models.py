@@ -22,6 +22,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_('Designates whether the user can log into this admin site.'),
     )
     objects = UserManager()
+    birth_day = models.DateField(null=True, blank=True)
+    country = models.CharField(max_length=255)
+    gender = models.CharField("gender", max_length=250)
+    facebook = models.CharField("facebook", max_length=250)
+    github = models.CharField("github", max_length=250)
+    linkedin = models.CharField("linkedin", max_length=250)
+    twitter = models.CharField("twitter", max_length=250)
+    biography = models.TextField(max_length=140)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'

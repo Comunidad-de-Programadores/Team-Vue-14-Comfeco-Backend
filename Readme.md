@@ -10,4 +10,4 @@ Proyecto Comfeco Backend
 3. Install virtualenv.
 4. create virtualenv and activate
 5. `pip install -r requirements/local.txt`
-6. replace .env.example for .env
+6. replace .env.example for .env 
