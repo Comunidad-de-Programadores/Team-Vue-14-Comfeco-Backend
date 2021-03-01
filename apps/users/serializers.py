@@ -13,7 +13,6 @@ class UserLoginSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['username'] = user.username
         token['first_name'] = user.first_name
-
         return token
 
 class UserRegisterSerializer(serializers.ModelSerializer):
