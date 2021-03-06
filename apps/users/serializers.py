@@ -76,6 +76,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def validate_email(self, value):
         request = self.context.get('request')
+        print(value, 'email')
         user = request.user
         if User.objects.filter(email=value).exclude(id=user.id).exists():
             return serializers.ValidationError('Ya existe este email')
