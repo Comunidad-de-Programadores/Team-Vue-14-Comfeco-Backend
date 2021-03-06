@@ -64,7 +64,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'first_name', 'last_name', 'username', 'email', 'gender', 'birth_day',
-            'country', 'facebook', 'github', 'twitter', 'linkedin', 'biography']
+            'country', 'facebook', 'github', 'twitter', 'linkedin', 'biography', 'area']
 
 
     def validate_username(self, value):

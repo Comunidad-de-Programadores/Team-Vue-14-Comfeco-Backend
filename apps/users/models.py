@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from .managers import UserManager
 from django.utils.translation import ugettext_lazy as _
+from .constants import CHOICES_AREA
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
@@ -23,6 +24,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     objects = UserManager()
     birth_day = models.DateField(null=True, blank=True)
+    area = models.CharField(max_length=255, choices=CHOICES_AREA)
     country = models.CharField(max_length=255)
     gender = models.CharField("gender", max_length=250)
     facebook = models.CharField("facebook", max_length=250)
