@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from .managers import UserManager
 from django.utils.translation import ugettext_lazy as _
+from apps.core.models import CoreTimeModel
 from .constants import CHOICES_AREA
 
 # Create your models here.
@@ -39,3 +40,35 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class UserEvent(CoreTimeModel):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    event = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+
+    class Meta:
+        """Meta definition for UserEvent."""
+
+        verbose_name = 'UserEvent'
+        verbose_name_plural = 'UserEvents'
+        unique_together = ('user', 'event')
+
+    def __str__(self):
+        """Unicode representation of UserEvent."""
+        pass
+
+
+class UserGroup(CoreTimeModel):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    group = models.ForeignKey("groups.Group", on_delete=models.CASCADE)
+
+    class Meta:
+        """Meta definition for UserEvent."""
+
+        verbose_name = 'UserEvent'
+        verbose_name_plural = 'UserEvents'
+        unique_together = ('user', 'group')
+        
+    def __str__(self):
+        """Unicode representation of UserEvent."""
+        pass
