@@ -16,4 +16,4 @@ class Group(CoreTimeModel):
 
     def __str__(self):
         """Unicode representation of Group."""
-        pass
+        return self.name

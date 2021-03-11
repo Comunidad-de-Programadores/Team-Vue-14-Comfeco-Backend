@@ -6,7 +6,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to="banner/")
     description = models.TextField()
     event_date = models.DateTimeField()
-    
+
     class Meta:
         """Meta definition for Event."""
 
@@ -15,4 +15,4 @@ class Event(models.Model):
 
     def __str__(self):
         """Unicode representation of Event."""
-        pass
+        return self.name
