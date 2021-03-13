@@ -43,8 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserEvent(CoreTimeModel):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    event = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_events")
+    event = models.ForeignKey("events.Event", on_delete=models.CASCADE, related_name="events_user")
 
     class Meta:
         """Meta definition for UserEvent."""
@@ -55,7 +55,7 @@ class UserEvent(CoreTimeModel):
 
     def __str__(self):
         """Unicode representation of UserEvent."""
-        pass
+        return '{0} - {1}'.format(self.user.email, self.event.name)
 
 
 class UserGroup(CoreTimeModel):

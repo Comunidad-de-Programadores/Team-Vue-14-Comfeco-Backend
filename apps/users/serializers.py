@@ -2,7 +2,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import User
+from apps.events.serializers import EventSerializer
+from .models import User, UserEvent
 
 
 class UserLoginSerializer(TokenObtainPairSerializer):
@@ -76,7 +77,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def validate_email(self, value):
         request = self.context.get('request')
-        print(value, 'email')
         user = request.user
         if User.objects.filter(email=value).exclude(id=user.id).exists():
             return serializers.ValidationError('Ya existe este email')
@@ -109,3 +109,15 @@ class UserChangePasswordSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class UserEventSerializer(serializers):
+    event = EventSerializer()
+    created = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserEvent
+        fields = ['event', 'created']
+
+    def get_created(self, obj):
+        return obj.created.strftime("%m/%d/%Y %H:%M")

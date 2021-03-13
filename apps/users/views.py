@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView
+from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, ListAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import (UserRegisterSerializer, UserProfileSerializer, UserLoginSerializer,
-                            UserChangePasswordSerializer, UserChangePasswordSerializer)
+                            UserChangePasswordSerializer, UserChangePasswordSerializer, UserEventSerializer)
 from apps.core.permissions import AuthenticatedJWT
-from .models import User
+from apps.events.models import Event
+from .models import User, UserEvent
 
 
 class UserLoginAPI(TokenObtainPairView):
@@ -33,3 +35,13 @@ class UserChangePasswordAPI(AuthenticatedJWT, UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UserEventAPI(AuthenticatedJWT, ListAPIView):
+    model = UserEvent
+    serializer_class = UserEventSerializer
+    queryset = UserEvent.objects.all()
+
+    def get_queryset(self):
+        queryset = UserEvent.objects.filter(user=self.request.user).select_related('event')
+        return queryset
