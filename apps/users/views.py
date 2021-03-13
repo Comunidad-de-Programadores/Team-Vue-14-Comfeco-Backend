@@ -3,11 +3,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, ListAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from apps.core.permissions import AuthenticatedJWT
+from .models import User, UserEvent
+
 from .serializers import (UserRegisterSerializer, UserProfileSerializer, UserLoginSerializer,
                             UserChangePasswordSerializer, UserChangePasswordSerializer, UserEventSerializer)
-from apps.core.permissions import AuthenticatedJWT
-from apps.events.models import Event
-from .models import User, UserEvent
 
 
 class UserLoginAPI(TokenObtainPairView):
@@ -38,7 +38,6 @@ class UserChangePasswordAPI(AuthenticatedJWT, UpdateAPIView):
 
 
 class UserEventAPI(AuthenticatedJWT, ListAPIView):
-    model = UserEvent
     serializer_class = UserEventSerializer
     queryset = UserEvent.objects.all()
 

@@ -2,7 +2,6 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from apps.events.serializers import EventSerializer
 from .models import User, UserEvent
 
 
@@ -111,8 +110,10 @@ class UserChangePasswordSerializer(serializers.ModelSerializer):
         return instance
 
 
-class UserEventSerializer(serializers):
-    event = EventSerializer()
+class UserEventSerializer(serializers.ModelSerializer):
+    # from apps.events.serializers import EventSerializer
+
+    # event = EventSerializer()
     created = serializers.SerializerMethodField()
 
     class Meta:
