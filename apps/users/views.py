@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, ListAPIView
+from rest_framework.generics import (CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, ListAPIView, 
+                                    RetrieveAPIView)
 from rest_framework_simplejwt.views import TokenObtainPairView
 from apps.core.permissions import AuthenticatedJWT
-from .models import User, UserEvent
+from .models import User, UserEvent, UserGroup
 
 from .serializers import (UserRegisterSerializer, UserProfileSerializer, UserLoginSerializer,
-                            UserChangePasswordSerializer, UserChangePasswordSerializer, UserEventSerializer)
+                            UserChangePasswordSerializer, UserChangePasswordSerializer, UserEventSerializer, UserGroupSerializer, UserSerializer)
 
 
 class UserLoginAPI(TokenObtainPairView):
@@ -43,4 +44,23 @@ class UserEventAPI(AuthenticatedJWT, ListAPIView):
 
     def get_queryset(self):
         queryset = UserEvent.objects.filter(user=self.request.user).select_related('event')
+        return queryset
+
+
+class UserGroupsAPI(AuthenticatedJWT, ListAPIView):
+    serializer_class = UserGroupSerializer
+    queryset = UserGroup.objects.all()
+
+    def get_queryset(self):
+        queryset = UserGroup.objects.filter(user=self.request.user).select_related('event')
+        return queryset
+
+
+
+class UserGroupsDetailAPI(AuthenticatedJWT, RetrieveAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+    def get_queryset(self):
+        queryset = User.objects.filter(user_groups__group_id=self.kwargs.get('pk')).exclude(id=self.request.id).prefetch_related('user_groups__group')
         return queryset

@@ -2,7 +2,9 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import User, UserEvent
+from .models import User, UserEvent, UserGroup
+from apps.events.serializers import EventSerializer
+from apps.groups.serializers import GroupSerializer
 
 
 class UserLoginSerializer(TokenObtainPairSerializer):
@@ -111,9 +113,8 @@ class UserChangePasswordSerializer(serializers.ModelSerializer):
 
 
 class UserEventSerializer(serializers.ModelSerializer):
-    # from apps.events.serializers import EventSerializer
 
-    # event = EventSerializer()
+    event = EventSerializer()
     created = serializers.SerializerMethodField()
 
     class Meta:
@@ -122,3 +123,24 @@ class UserEventSerializer(serializers.ModelSerializer):
 
     def get_created(self, obj):
         return obj.created.strftime("%m/%d/%Y %H:%M")
+
+
+
+class UserGroupSerializer(serializers.ModelSerializer):
+
+    group = GroupSerializer()
+    created = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserGroup
+        fields = ['group', 'created']
+
+    def get_created(self, obj):
+        return obj.created.strftime("%m/%d/%Y %H:%M")
+
+
+class UserSerializer(serializers.ModelSerializer):
+   
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']

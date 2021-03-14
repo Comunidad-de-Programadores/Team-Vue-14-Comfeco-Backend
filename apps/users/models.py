@@ -59,8 +59,8 @@ class UserEvent(CoreTimeModel):
 
 
 class UserGroup(CoreTimeModel):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    group = models.ForeignKey("groups.Group", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_groups")
+    group = models.ForeignKey("groups.Group", on_delete=models.CASCADE, related_name="group_users")
 
     class Meta:
         """Meta definition for UserEvent."""
@@ -71,4 +71,4 @@ class UserGroup(CoreTimeModel):
         
     def __str__(self):
         """Unicode representation of UserEvent."""
-        pass
+        return '{0} - {1}'.format(self.user.email, self.group.name)

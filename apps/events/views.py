@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from apps.core.permissions import AuthenticatedJWT
 from .serializers import EventSerializer, EventRegisterSerializer
 from .models import Event
@@ -15,11 +17,23 @@ class EventAPI(AuthenticatedJWT, ListAPIView):
     queryset = Event.objects.all().order_by('-event_date')
     serializer_class = EventSerializer
 
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            'events': self.request.user.user_events.all().values_list('event_id', flat=True)
+        }
 
+        
 class EventRegisterUserAPI(AuthenticatedJWT, APIView):
-
+    @swagger_auto_schema(
+        request_body=EventRegisterSerializer,
+        operation_id='Create User Event',
+        tags=['events']
+    )
     def post(self, request, *args, **kwargs):
-        serializer = EventRegisterSerializer(data=request.data)
+        serializer = EventRegisterSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         event_id = serializer.data.get('event_id')
         UserEvent.objects.created(event_id=event_id, user=request.user)
