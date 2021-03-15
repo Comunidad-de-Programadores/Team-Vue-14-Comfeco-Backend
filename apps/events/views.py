@@ -36,5 +36,5 @@ class EventRegisterUserAPI(AuthenticatedJWT, APIView):
         serializer = EventRegisterSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         event_id = serializer.data.get('event_id')
-        UserEvent.objects.created(event_id=event_id, user=request.user)
+        UserEvent.objects.create(event_id=event_id, user=request.user)
         return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)

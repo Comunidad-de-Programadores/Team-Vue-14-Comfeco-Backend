@@ -43,5 +43,5 @@ class GroupRegisterUserAPI(AuthenticatedJWT, APIView):
         serializer = GroupRegisterSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         group_id = serializer.data.get('group_id')
-        UserGroup.objects.created(group_id=group_id, user=request.user)
+        UserGroup.objects.create(group_id=group_id, user=request.user)
         return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
