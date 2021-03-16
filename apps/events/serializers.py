@@ -8,11 +8,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['name', 'image', 'description', 'event_date', 'id', 'is_register']
-
-    def get_is_register(self, obj):
-        events = self.context.get('events')
-        return obj.id in events
+        fields = ['name', 'image', 'description', 'event_date', 'id']
 
 
 class EventRegisterSerializer(serializers.Serializer):
