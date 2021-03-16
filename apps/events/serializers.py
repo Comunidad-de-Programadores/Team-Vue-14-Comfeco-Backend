@@ -4,7 +4,6 @@ from .models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):
-    is_register = serializers.SerializerMethodField()
 
     class Meta:
         model = Event

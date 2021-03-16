@@ -4,15 +4,12 @@ from .models import Group
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    is_register = serializers.SerializerMethodField()
 
     class Meta:
         model = Group
-        fields = ['name', 'image', 'description', 'tag', 'id', 'is_register']
+        fields = ['name', 'image', 'description', 'tag', 'id']
 
-    def get_is_register(self, obj):
-        groups = self.context.get('groups')
-        return obj.id in groups
+
 
 
 class GroupRegisterSerializer(serializers.Serializer):
