@@ -22,7 +22,7 @@ class EventAPI(AuthenticatedJWT, ListAPIView):
             'request': self.request,
             'format': self.format_kwarg,
             'view': self,
-            'events': self.request.user.user_events.all().values_list('event_id', flat=True)
+            'events': list(self.request.user.user_events.all().values_list('event_id', flat=True))
         }
 
         
