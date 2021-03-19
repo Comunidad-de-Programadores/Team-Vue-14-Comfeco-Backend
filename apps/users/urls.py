@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (UserGroupsAPI, UserRegisterAPI, UserLoginAPI, UserProfileAPI,
-                    UserChangePasswordAPI, UserEventAPI, UserGroupsDetailAPI)
+                    UserChangePasswordAPI, UserEventAPI, UserGroupsDetailAPI, UserGroupDeleteAPI,
+                    UserEventDeleteAPI)
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -16,4 +17,6 @@ urlpatterns = [
     path('user/events/', UserEventAPI.as_view(), name='user_my_events'),
     path('user/groups/', UserGroupsAPI.as_view()),
     path('user/groups/<int:pk>/', UserGroupsDetailAPI.as_view()),
+    path('user/groups/<int:pk>/delete/', UserGroupsDetailAPI.as_view()),
+    path('user/events/<int:pk>/delete/', UserEventDeleteAPI.as_view())
 ]

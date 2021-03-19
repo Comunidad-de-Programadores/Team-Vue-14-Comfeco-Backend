@@ -38,9 +38,3 @@ class EventRegisterUserAPI(AuthenticatedJWT, APIView):
         event_id = serializer.data.get('event_id')
         UserEvent.objects.create(event_id=event_id, user=request.user)
         return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
-
-        
-class EventUserDeleteAPI(AuthenticatedJWT, DestroyAPIView):
-
-    def get_object(self):
-        return get_object_or_404(UserEvent.objects.filter(user=self.request.user), group_id=self.kwargs.get('pk'))

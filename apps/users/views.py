@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import (CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, ListAPIView, 
-                                    RetrieveAPIView)
+                                    RetrieveAPIView, DestroyAPIView)
 from rest_framework_simplejwt.views import TokenObtainPairView
 from apps.core.permissions import AuthenticatedJWT
 from .models import User, UserEvent, UserGroup
@@ -64,3 +64,15 @@ class UserGroupsDetailAPI(AuthenticatedJWT, RetrieveAPIView):
     def get_queryset(self):
         queryset = User.objects.filter(user_groups__group_id=self.kwargs.get('pk')).exclude(id=self.request.id).prefetch_related('user_groups__group')
         return queryset
+
+
+class UserGroupDeleteAPI(AuthenticatedJWT, DestroyAPIView):
+
+    def get_object(self):
+        return get_object_or_404(UserGroup.objects.filter(user=self.request.user), group_id=self.kwargs.get('pk'))
+
+        
+class UserEventDeleteAPI(AuthenticatedJWT, DestroyAPIView):
+
+    def get_object(self):
+        return get_object_or_404(UserEvent.objects.filter(user=self.request.user), group_id=self.kwargs.get('pk'))
