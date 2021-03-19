@@ -47,7 +47,3 @@ class GroupRegisterUserAPI(AuthenticatedJWT, APIView):
         return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
 
         
-class GroupUserDeleteAPI(AuthenticatedJWT, DestroyAPIView):
-
-    def get_object(self):
-        return get_object_or_404(UserGroup.objects.filter(user=self.request.user), group_id=self.kwargs.get('pk'))

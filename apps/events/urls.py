@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EventAPI, EventRegisterUserAPI, EventUserDeleteAPI
+from .views import EventAPI, EventRegisterUserAPI
 
 
 app_name = 'events'

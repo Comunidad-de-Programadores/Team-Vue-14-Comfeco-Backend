@@ -17,6 +17,6 @@ urlpatterns = [
     path('user/events/', UserEventAPI.as_view(), name='user_my_events'),
     path('user/groups/', UserGroupsAPI.as_view()),
     path('user/groups/<int:pk>/', UserGroupsDetailAPI.as_view()),
-    path('user/groups/<int:pk>/delete/', UserGroupsDetailAPI.as_view()),
+    path('user/groups/<int:pk>/delete/', UserGroupDeleteAPI.as_view()),
     path('user/events/<int:pk>/delete/', UserEventDeleteAPI.as_view())
 ]
