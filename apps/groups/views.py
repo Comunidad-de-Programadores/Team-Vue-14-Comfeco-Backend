@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, DestroyAPIView
 from apps.core.permissions import AuthenticatedJWT
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -45,3 +45,9 @@ class GroupRegisterUserAPI(AuthenticatedJWT, APIView):
         group_id = serializer.data.get('group_id')
         UserGroup.objects.create(group_id=group_id, user=request.user)
         return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
+
+        
+class GroupUserDeleteAPI(AuthenticatedJWT, DestroyAPIView):
+
+    def get_object(self):
+        return get_object_or_404(UserGroup.objects.filter(user=self.request.user), group_id=self.kwargs.get('pk'))

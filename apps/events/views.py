@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, DestroyAPIView
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from apps.core.permissions import AuthenticatedJWT
@@ -38,3 +38,9 @@ class EventRegisterUserAPI(AuthenticatedJWT, APIView):
         event_id = serializer.data.get('event_id')
         UserEvent.objects.create(event_id=event_id, user=request.user)
         return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
+
+        
+class EventUserDeleteAPI(AuthenticatedJWT, DestroyAPIView):
+
+    def get_object(self):
+        return get_object_or_404(UserEvent.objects.filter(user=self.request.user), group_id=self.kwargs.get('pk'))
